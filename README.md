@@ -6,5 +6,6 @@ mono Binarization.exe "path/to/image" method (static/mean)\
 
 # Static Output
 
+![Alt text](URL-to-your-image)
 
 
