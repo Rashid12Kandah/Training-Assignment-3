@@ -5,7 +5,7 @@ csc Binarization.cs
 mono Binarization.exe "path/to/image" method (static/mean)\
 
 # Static Output
-
-![Alt text](URL-to-your-image)
+## Original Image
+![Original Image](https://github.com/Rashid12Kandah/training-assignment-1/blob/master/Cute_dog.jpg)
 
 
