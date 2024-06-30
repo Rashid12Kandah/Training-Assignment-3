@@ -21,6 +21,10 @@ Mean Binarization no scaling altered.
 
 <img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_normal.jpg" alt="Mean Binarization, Dog" width="300" height="200">
 
+Mean Binarization scaling the mean intensity by 80%
+
+<img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_dog_0.8.jpg" alt="Mean Binarization, Dog, S.F. 0.8" width="300" height="200">
+
 ### Original Image - Cheque Image
 <img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/24bit_cheque.bmp" alt = "24-bit cheque bmp" width = "748" height="352">
 
