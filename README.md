@@ -5,14 +5,18 @@ csc Binarization.cs
 mono Binarization.exe "path/to/image" method (static/mean)
 
 
-### Original Image
+### Original Image - Dog Image
 <img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/Cute_dog.jpg" alt="Original Image" width="300" height="200">
 
 
 # Static Output
-### Static binarization with threshold 150
+### Static binarization with threshold 70
 
-<img src = "https://github.com/Rashid12Kandah/training-assignment-1/blob/master/static_06c911b0-8783-4618-ad29-84740c92d143.jpg" alt = "Static thresholding, thr 150" width="300" height="200">
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static thresholding, thr 70" width="300" height="200">
+
+### Static binarization with threshold 75
+
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_75_thr.jpg" alt = "Static Thresholding, thr 75" width="300" height"200">
 
 
 # Mean Thresholding
