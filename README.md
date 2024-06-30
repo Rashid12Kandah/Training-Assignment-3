@@ -17,6 +17,10 @@ mono Binarization.exe "path/to/image" method (static/mean)
 # Mean Thresholding
 ### In mean thresholding I had a problem of the mean being too high, so I tried to adjust the scaling factor of the mean intensity to have a better result.
 
+Mean Binarization no scaling altered.
+
+<img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_normal.jpg" alt="Mean Binarization, Dog" width="300" height="200">
+
 ### Original Image - Cheque Image
 <img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/24bit_cheque.bmp" alt = "24-bit cheque bmp" width = "748" height="352">
 
