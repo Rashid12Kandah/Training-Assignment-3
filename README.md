@@ -16,7 +16,7 @@ mono Binarization.exe "path/to/image" method (static/mean)
 
 ### Static binarization with threshold 70 - Cheque
 
-<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static Thresholding, Cheque, thr 70" width="1496" height="704">
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static Thresholding, Cheque, thr 70" width="748" height="352">
 
 
 # Mean Thresholding
