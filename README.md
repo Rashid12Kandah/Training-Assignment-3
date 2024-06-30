@@ -12,7 +12,7 @@ mono Binarization.exe "path/to/image" method (static/mean)
 # Static Output
 ### Static binarization with threshold 70 - Dog
 
-<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_Dog.jpg" alt = "Static thresholding, Dog, thr 70" width="748" height="352">
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_Dog.jpg" alt = "Static thresholding, Dog, thr 70" width="300" height="200">
 
 ### Static binarization with threshold 70 - Cheque
 
