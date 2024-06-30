@@ -9,7 +9,7 @@ mono Binarization.exe "path/to/image" method (static/mean)
 <img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/Cute_dog.jpg" alt="Original Image" width="300" height="200">
 
 ### Original Image - Cheque Image
-<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/24bit_cheque.bmp" alt = "24-bit cheque bmp" width = "748" height="352>
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/24bit_cheque.bmp" alt = "24-bit cheque bmp" width = "748" height="352">
 
 
 # Static Output
