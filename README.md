@@ -17,11 +17,11 @@ mono Binarization.exe "path/to/image" method (static/mean)
 # Mean Thresholding
 > In mean thresholding I had a problem of the mean being too high, so I tried to adjust the scaling factor of the mean intensity to have a better result.
 
-> Mean Binarization no scaling altered.
+### Mean Binarization no scaling altered.
 
 <img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_normal.jpg" alt="Mean Binarization, Dog" width="300" height="200">
 
-> Mean Binarization scaling the mean intensity by 80%
+### Mean Binarization scaling the mean intensity by 80%
 
 <img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_dog_0.8.jpg" alt="Mean Binarization, Dog, S.F. 0.8" width="300" height="200">
 
@@ -45,14 +45,14 @@ mono Binarization.exe "path/to/image" method (static/mean)
 
 >In the follwoing example I tried different S.F. (0.7 and 0.8).
 
-> Mean Binarization no Scaling Factors altered
+### Mean Binarization no Scaling Factors altered
 
 <img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_not_normalized.jpg" alt="Mean Thresholding not Scaled" width = "748" height="352">
 
-> Mean Binarization Scaling Factor = 0.7
+### Mean Binarization Scaling Factor = 0.7
 
 <img src="https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_0.7_normalize.jpg" alt="Mean Thresholding, S.F. 0.7" width = "748" height="352">
 
-> Mean Binarization Scaling Factor = 0.8
+### Mean Binarization Scaling Factor = 0.8
 
 <img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/mean_0.8_normalize.jpg" alt="Mean Thresholding, S.F. 0.8" width = "748" height="352">
