@@ -10,14 +10,15 @@ mono Binarization.exe "path/to/image" method (static/mean)
 
 
 # Static Output
-### Static binarization with threshold 70
+### Static binarization with threshold 70 - Dog
 
-<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static thresholding, thr 70" width="300" height="200">
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static thresholding, Dog, thr 70" width="300" height="200">
 
-### Static binarization with threshold 75
+### Static binarization with threshold 70 - Cheque
 
-<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_75_thr.jpg" alt = "Static Thresholding, thr 75" width="300" height"200">
+<img src = "https://github.com/Rashid12Kandah/Training-Assignment-3/blob/master/static_70_thr.jpg" alt = "Static Thresholding, Cheque, thr 70" width="300" height="300">
 
 
 # Mean Thresholding
-<img src="https://github.com/Rashid12Kandah/training-assignment-1/blob/master/mean_dbd7c65b-554d-44e9-9eb6-f344bb5e945a.jpg" alt="Mean Threshold" width="300" height="200">
+### In mean thresholding I had a problem of the mean being too high, so I tried to adjust the scaling factor of the mean intensity to have a better result.
+
