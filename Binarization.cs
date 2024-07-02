@@ -3,10 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 
 public class Binarization{
-
-    public static Bitmap GrayScale(Bitmap image){
-
-        Bitmap tempImg = new Bitmap(image.Width, image.Height, PixelFormat.Format8bppIndexed);
+    public static Bitmap GrayScale(Bitmap image)
+    {
+        int width = image.Width;
+        int height = image.Height;
+        Bitmap tempImg = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
 
         ColorPalette palette = tempImg.Palette;
         for (int i = 0; i < 256; i++)
@@ -15,79 +16,126 @@ public class Binarization{
         }
         tempImg.Palette = palette;
 
-        BitmapData imgData = image.LockBits(new Rectangle(0,0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb); 
-
-        BitmapData tempData = tempImg.LockBits(new Rectangle(0,0, tempImg.Width, tempImg.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+        BitmapData imgData = image.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+        BitmapData tempData = tempImg.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
 
         int imgStride = imgData.Stride;
-        int imgOffset = imgStride - (image.Width*3);
-
         int tempStride = tempData.Stride;
-        int tempOffset = tempStride - tempImg.Width;
 
+        unsafe
+        {
+            byte* imgPtr = (byte*)imgData.Scan0;
+            byte* tempPtr = (byte*)tempData.Scan0;
 
-        unsafe{
+            for (int y = 0; y < height; y++)
+            {
+                byte* imgLinePtr = imgPtr + y * imgStride;
+                byte* tempLinePtr = tempPtr + y * tempStride;
 
-            byte * imgPtr = (byte *)(void *) imgData.Scan0;
-            byte * tempPtr = (byte *)(void *) tempData.Scan0;
-            byte red, green, blue;
+                for (int x = 0; x < width; x++)
+                {
+                    byte blue = imgLinePtr[0];
+                    byte green = imgLinePtr[1];
+                    byte red = imgLinePtr[2];
 
-            for(int y = 0; y < image.Height; y++){
-                for(int x = 0; x<image.Width; x++){
-                    red = imgPtr[0];
-                    green = imgPtr[1];
-                    blue = imgPtr[2];
+                    tempLinePtr[0] = (byte)(.299 * red + .587 * green + .114 * blue);
 
-                    tempPtr[0] = (byte)(.299 * red + .587 * green + .114 * blue);
-
-                    imgPtr +=3;
-                    tempPtr += 1;
+                    imgLinePtr += 3;
+                    tempLinePtr += 1;
                 }
-                imgPtr += imgOffset;
-                tempPtr += tempOffset;
-
             }
-            }
+        }
 
         image.UnlockBits(imgData);
         tempImg.UnlockBits(tempData);
 
         return tempImg;
-
-        // BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppRgb);
-
-		// 	int stride = bmData.Stride;
-		// 	System.IntPtr Scan0 = bmData.Scan0;
-
-		// 	unsafe
-		// 	{
-		// 		byte * p = (byte *)(void *)Scan0;
-
-		// 		int nOffset = stride - b.Width*3;
-
-		// 		byte red, green, blue;
-	
-		// 		for(int y=0;y<b.Height;++y)
-		// 		{
-		// 			for(int x=0; x < b.Width; ++x )
-		// 			{
-		// 				blue = p[0];
-		// 				green = p[1];
-		// 				red = p[2];
-
-		// 				p[0] = p[1] = p[2] = (byte)(.299 * red + .587 * green + .114 * blue);
-
-		// 				p += 3;
-		// 			}
-		// 			p += nOffset;
-		// 		}
-		// 	}
-
-		// 	b.UnlockBits(bmData);
-
-		// 	return b;
-
     }
+
+    // public static Bitmap GrayScale(Bitmap image){
+
+    //     Bitmap tempImg = new Bitmap(image.Width, image.Height, PixelFormat.Format8bppIndexed);
+
+    //     ColorPalette palette = tempImg.Palette;
+    //     for (int i = 0; i < 256; i++)
+    //     {
+    //         palette.Entries[i] = Color.FromArgb(i, i, i);
+    //     }
+    //     tempImg.Palette = palette;
+
+    //     BitmapData imgData = image.LockBits(new Rectangle(0,0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb); 
+
+    //     BitmapData tempData = tempImg.LockBits(new Rectangle(0,0, tempImg.Width, tempImg.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+
+    //     int imgStride = imgData.Stride;
+    //     int imgOffset = imgStride - (image.Width*3);
+
+    //     int tempStride = tempData.Stride;
+    //     int tempOffset = tempStride - tempImg.Width;
+
+
+    //     unsafe{
+
+    //         byte * imgPtr = (byte *)(void*)imgData.Scan0;
+    //         byte * tempPtr = (byte *)(void*)tempData.Scan0;
+    //         byte red, green, blue;
+
+    //         for(int y = 0; y < image.Height; y++){
+    //             for(int x = 0; x<image.Width; x++){
+    //                 red = imgPtr[0];
+    //                 green = imgPtr[1];
+    //                 blue = imgPtr[2];
+
+    //                 tempPtr[0] = (byte)(.299 * red + .587 * green + .114 * blue);
+
+    //                 imgPtr +=3;
+    //                 tempPtr += 1;
+    //             }
+    //             imgPtr += imgOffset;
+    //             tempPtr += tempOffset;
+
+    //         }
+    //         }
+
+    //     image.UnlockBits(imgData);
+    //     tempImg.UnlockBits(tempData);
+
+    //     return tempImg;
+
+    //     // BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format8bppRgb);
+
+	// 	// 	int stride = bmData.Stride;
+	// 	// 	System.IntPtr Scan0 = bmData.Scan0;
+
+	// 	// 	unsafe
+	// 	// 	{
+	// 	// 		byte * p = (byte *)(void *)Scan0;
+
+	// 	// 		int nOffset = stride - b.Width*3;
+
+	// 	// 		byte red, green, blue;
+	
+	// 	// 		for(int y=0;y<b.Height;++y)
+	// 	// 		{
+	// 	// 			for(int x=0; x < b.Width; ++x )
+	// 	// 			{
+	// 	// 				blue = p[0];
+	// 	// 				green = p[1];
+	// 	// 				red = p[2];
+
+	// 	// 				p[0] = p[1] = p[2] = (byte)(.299 * red + .587 * green + .114 * blue);
+
+	// 	// 				p += 3;
+	// 	// 			}
+	// 	// 			p += nOffset;
+	// 	// 		}
+	// 	// 	}
+
+	// 	// 	b.UnlockBits(bmData);
+
+	// 	// 	return b;
+
+    // }
 
     public static Bitmap Static_Binarization(Bitmap image, long threshold){
         if(image.PixelFormat != PixelFormat.Format8bppIndexed){
@@ -221,6 +269,17 @@ public class Binarization{
             Console.WriteLine($"Original Image Format: {inputImage.PixelFormat}");
             Console.WriteLine($"Binarized Image Format: {output.PixelFormat}");
         
+        }else if(method == "gray"){
+
+            watch.Start();
+            Bitmap output = GrayScale(inputImage);
+            watch.Stop();
+            output.Save(savePath);
+            Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Original Image Format: {inputImage.PixelFormat}");
+            Console.WriteLine($"Binarized Image Format: {output.PixelFormat}");
+        
+
         }else{
         
             Console.WriteLine("Invalid method specified. Use 'static' or 'mean'.");
