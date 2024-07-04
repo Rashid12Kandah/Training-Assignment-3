@@ -16,11 +16,13 @@ public class Binarization{
         }
         tempImg.Palette = palette;
 
-        BitmapData imgData = image.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+        BitmapData imgData = image.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, image.PixelFormat);
         BitmapData tempData = tempImg.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
 
         int imgStride = imgData.Stride;
+        int imgOffset = imgStride - (image.Width*3);
         int tempStride = tempData.Stride;
+        int tempOffset = tempStride - tempImg.Width;
 
         unsafe
         {
@@ -34,14 +36,39 @@ public class Binarization{
 
                 for (int x = 0; x < width; x++)
                 {
-                    byte blue = imgLinePtr[0];
-                    byte green = imgLinePtr[1];
-                    byte red = imgLinePtr[2];
+                    byte grayValue;
 
-                    tempLinePtr[0] = (byte)(.299 * red + .587 * green + .114 * blue);
+                    switch (image.PixelFormat)
+                    {
+                        case PixelFormat.Format24bppRgb:
+                            {
+                                byte blue = imgLinePtr[0];
+                                byte green = imgLinePtr[1];
+                                byte red = imgLinePtr[2];
+                                grayValue = (byte)(.299 * red + .587 * green + .114 * blue);
+                                imgLinePtr += 3;
+                                break;
+                            }
+                        case PixelFormat.Format32bppArgb:
+                        case PixelFormat.Format32bppRgb:
+                            {
+                                byte blue = imgLinePtr[0];
+                                byte green = imgLinePtr[1];
+                                byte red = imgLinePtr[2];
+                                grayValue = (byte)(.299 * red + .587 * green + .114 * blue);
+                                imgLinePtr += 4;
+                                break;
+                            }
+                        case PixelFormat.Format8bppIndexed:
+                            {
+                                grayValue = imgLinePtr[0];
+                                imgLinePtr += 1;
+                                break;
+                            }
+                        default:
+                            throw new NotSupportedException("Pixel format not supported.");
 
-                    imgLinePtr += 3;
-                    tempLinePtr += 1;
+                    }     
                 }
             }
         }
@@ -136,16 +163,17 @@ public class Binarization{
 	// 	// 	return b;
 
     // }
-
+// managed and unmaanged line 146
     public static Bitmap Static_Binarization(Bitmap image, long threshold){
-        if(image.PixelFormat != PixelFormat.Format8bppIndexed){
-            image = GrayScale(image);
-        }
+        int width = image.Width;
+        int height = image.Height;
+        Bitmap newImage = new Bitmap(GrayScale(image);)
 
-        Bitmap newImage = (Bitmap)image.Clone();
+
+        
 
         // BitmapData imgData = image.LockBits(new Rectangle(0,0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
-        BitmapData newData = newImage.LockBits(new Rectangle(0,0, newImage.Width, newImage.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+        BitmapData newData = newImage.LockBits(new Rectangle(0,0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
 
         // int imgStride = imgData.Stride;
         // int imgOffset = imgStride - imgData.Width;
@@ -158,19 +186,18 @@ public class Binarization{
         {
             // byte* imgPtr = (byte*)(void*)imgData.Scan0;
             byte* newPtr = (byte*)(void*)newData.Scan0;
-
-            for(int y = 0; y<image.Height; y++)
+            for(int y = 0; y<height; y++)
             {
                 // byte* linePtr = imgPtr + (y*imgStride);
                 byte* newlinePtr = newPtr + (y*newStride);
 
 
-                for(int x = 0; x<image.Width; x++)
+                for(int x = 0; x<width; x++)
                 {
                     // int byteIndx = x/8;
                     // int bitIndx = x%8;
 
-                    int pixelValue = newlinePtr[x];
+                    // int pixelValue = newlinePtr[x];
 
                     // if(pixelValue > threshold){
                     //     newlinePtr[byteIndx] |= (byte)(1 << (7-bitIndx)); // Left shift the 0000 0001 by the difference between 7 and the index of the bit in the current byte to place the 1 in the position of the pixel in the 1-bit image in the byte index. Then the OR operator is used to add the white pixel to the correct position. 
@@ -178,7 +205,7 @@ public class Binarization{
                     //     newlinePtr[byteIndx] &= (byte)~(1 << (7-bitIndx)); // Left shift the 0000 0001 by the difference between 7 and the index of the bit in the current byte to place the 1 in the position of the pixel in the 1-bit image in the byte index. Then the AND operator is used to keep the zero in that pixel, because the original pixel is lower than the threshold.
                     // }
 
-                    newlinePtr[x] = (byte)(pixelValue > threshold ? 255 : 0);
+                    newlinePtr[x] = (byte)(newlinePtr[x] > threshold ? 255 : 0);
     
                 }
             }
@@ -192,13 +219,14 @@ public class Binarization{
 
 
     }
-
     public static long MeanIntensity(Bitmap image){
-
+        int width = image.Width;
+        int height = image.Height;
+    
         long sum = 0;
-        int numpix = image.Width * image.Height;
+        int numpix = width * height;
 
-        BitmapData imgData = image.LockBits(new Rectangle(0,0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
+        BitmapData imgData = image.LockBits(new Rectangle(0,0, width, height), ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
 
         int imgStride = imgData.Stride;
 
@@ -206,11 +234,11 @@ public class Binarization{
         {
             byte* imgPtr = (byte*)(void*)imgData.Scan0;
 
-            for(int y = 0; y<image.Height; y++)
+            for(int y = 0; y<height; y++)
             {
                 byte* linePtr = imgPtr + (y*imgStride);
 
-                for(int x = 0; x<image.Width; x++)
+                for(int x = 0; x<width; x++)
                 {
 
                     sum += linePtr[x];
@@ -228,12 +256,10 @@ public class Binarization{
     }
 
     public static Bitmap MeanBinarization(Bitmap image){
-        if(image.PixelFormat != PixelFormat.Format8bppIndexed){
-            image = GrayScale(image);
-        }
+        Bitmap newimage = new Bitmap(GrayScale(image));
         long meanIntensity = MeanIntensity(image);
         
-        long threshold = (long)(meanIntensity*0.7);
+        byte threshold = (byte)(meanIntensity*0.7);
         Console.WriteLine($"Threshold: {threshold}");
         return Static_Binarization(image, threshold);
     }
